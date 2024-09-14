@@ -55,12 +55,31 @@ class _VacancyListScreenState extends State<VacancyListScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'An error occurred while fetching vacancies. Please try again later.',
+                    style: TextStyle(color: Colors.red),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        vacancies = apiService.fetchVacancies();
+                      });
+                    },
+                    child: Text('Retry'),
+                  ),
+                ],
+              ),
+            );
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text('No vacancies available'));
           } else {
             List<Vacancy> filteredVacancies = snapshot.data!;
-
 
             if (selectedFilter != null) {
               filteredVacancies.sort((a, b) {
@@ -81,7 +100,6 @@ class _VacancyListScreenState extends State<VacancyListScreen> {
               itemCount: filteredVacancies.length,
               itemBuilder: (context, index) {
                 final vacancy = filteredVacancies[index];
-
 
                 print('Image URL: ${vacancy.imageUrl}');
 
@@ -115,7 +133,8 @@ class _VacancyListScreenState extends State<VacancyListScreen> {
                             width: double.infinity,
                             height: 200, // Larger image size
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) =>
+                            errorBuilder:
+                                (context, error, stackTrace) =>
                                 Container(
                                   height: 200,
                                   color: Colors.grey[300],
@@ -163,8 +182,8 @@ class _VacancyListScreenState extends State<VacancyListScreen> {
                               SizedBox(height: 8),
                               Text(
                                 'Posted on: ${vacancy.datePosted ?? 'Unknown'}',
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.grey),
+                                style:
+                                TextStyle(fontSize: 12, color: Colors.grey),
                               ),
                             ],
                           ),

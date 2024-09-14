@@ -26,6 +26,11 @@ class VacancyDetailScreen extends StatelessWidget {
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: 200,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  height: 200,
+                  color: Colors.grey[300],
+                  child: Icon(Icons.image, size: 100),
+                ),
               ),
             )
                 : Container(
@@ -45,7 +50,7 @@ class VacancyDetailScreen extends StatelessWidget {
                 color: Colors.black87,
               ),
             ),
-            SizedBox(height: 4.0), // Adjust spacing
+            SizedBox(height: 4.0),
             Text(
               'Job ID: ${vacancy.jobId ?? 'Unknown'}',
               style: TextStyle(
@@ -83,7 +88,7 @@ class VacancyDetailScreen extends StatelessWidget {
             ),
             SizedBox(height: 8.0),
             Text(
-              vacancy.description ?? 'No Description',
+              vacancy.description ?? 'No Description Available',
               style: TextStyle(
                 fontSize: 14.0,
                 color: Colors.black87,
@@ -92,7 +97,7 @@ class VacancyDetailScreen extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             Text(
-              vacancy.longDescription ?? 'No Long Description',
+              vacancy.longDescription ?? 'No Detailed Description Available',
               style: TextStyle(
                 fontSize: 14.0,
                 color: Colors.black87,
